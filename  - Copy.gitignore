@@ -1,0 +1,9 @@
+# SECURITY DECISION: 
+# Explicitly ignore environment variable files to prevent accidental leakage of API keys to public repositories.
+.env
+.env.local
+.env.development
+.env.production
+node_modules/
+dist/
+.DS_Store
