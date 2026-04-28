@@ -1,7 +1,0 @@
-# SECURITY DECISION: 
-# This file is committed to version control to provide developers with a template of required variables.
-# Actual values should be placed in a local .env file which is strictly ignored via .gitignore.
-
-GEMINI_API_KEY=
-MAPS_API_KEY=
-FIREBASE_CONFIG=
