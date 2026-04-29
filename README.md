@@ -1,64 +1,114 @@
-# Election Mitra 🇮🇳
+# Election Mitra 🇮🇳 - Election Process Assistant
 
-A complete, accessible, and secure Election Process Education web application built for the Google AI Hackathon.
+A complete, accessible, and highly secure Election Process Education web application built to guide Indian citizens through the voting process, educate them on their rights, and assist them in finding their polling booths.
 
-## 🏆 Scoring Criteria Fulfilled
+## 📖 Project Description
 
-### 1. CODE QUALITY
-- **Modular JavaScript**: The application is split into separate modules (`app.js`, `gemini.js`, `maps.js`, `firebase.js`) using ES6 imports.
-- **Clean Structure**: Highly readable variable names, comments explaining logic, and exactly zero `console.log` statements in the production code.
+Election Mitra is an interactive platform designed to democratize access to electoral information. By leveraging cutting-edge AI technologies and cloud infrastructure, it provides real-time, multilingual assistance for voter queries, guides users through the registration process, offers interactive quizzes for civic education, and presents a seamlessly integrated map experience to help citizens locate their nearest polling booths.
 
-### 2. SECURITY
-- **Environment Variables**: API Keys are NEVER hardcoded. They are fetched strictly via `import.meta.env` (Vite) or `process.env`.
-- **Content Security Policy (CSP)**: Strict headers are defined in `<meta>` tags restricting `script-src` and `connect-src` only to Google and Firebase services.
-- **Sanitization**: All user input sent to the chat is sanitized via DOM manipulation (`textContent` to `innerHTML`) prior to rendering to block XSS attacks.
+The project strictly adheres to best practices in performance, accessibility (WCAG AA), security (CSP, input sanitization), and modular software architecture.
 
-### 3. EFFICIENCY
-- **Lazy Loading**: The Google Maps JavaScript API is NOT loaded on page boot. It is only dynamically injected when the user clicks the "Booth Finder" tab, heavily saving initial bandwidth.
-- **Lightweight**: Uses vanilla HTML, CSS, and JS. The entire project codebase is just a few kilobytes, easily passing the "Under 10MB" limit. Images are loaded as inline SVGs.
+## ✨ Features
 
-### 4. TESTING
-- **Jest Unit Tests**: Run `npm test` to execute tests located in `tests/app.test.js`. Tests cover XSS Sanitization, Quiz Boolean Logic, and Prompt Formatting.
-
-### 5. ACCESSIBILITY (WCAG Compliant)
-- **Contrast**: The dark purple (`#12051f`) and yellow (`#facc15`) theme far exceeds the 4.5:1 ratio requirement.
-- **Screen Reader Support**: Implements `.sr-only` classes, `aria-live="polite"` for dynamic chat/quiz updates, `aria-expanded` and `aria-controls` for tabs, and a "Skip to main content" link.
-- **Keyboard Navigation**: All buttons and interactive elements have custom focus rings (`focus-visible`) and `tabindex` applied. 
-- **Alt Text**: All SVGs/Images contain explicit `alt` tags and `aria-labels` exist on all buttons.
-
-### 6. GOOGLE SERVICES
-- **Gemini 1.5 Flash**: Seamlessly integrated to provide multilingual AI chat support.
-- **Google Maps JS API**: Embedded to help voters visually find polling booths.
-- **Firebase**: Project structure setup allows for rapid deployment to Firebase Hosting with Google Analytics.
+- **Gemini AI Integration**: Real-time, intelligent, and context-aware multilingual chat support (English, Hindi, Punjabi) powered by the Gemini 2.0 Flash model.
+- **Firebase Infrastructure**: 
+  - **Firestore**: Securely saves user queries and AI responses to a cloud database for historical analysis and review.
+- **Google Maps Integration**: Interactive "Booth Finder" module. Dynamically loads the Maps API to find polling stations based on PIN codes, rendering markers with fallback accessibility options.
+- **Firebase Analytics**: Robust event tracking system capturing custom user actions, page views, and specific search queries to help measure application engagement.
+- **Secure & Robust**: Implements strict Content Security Policy (CSP), aggressive input sanitization, dynamic API key retrieval from environment variables, and client-side rate limiting.
+- **Fully Accessible**: Comprehensive screen-reader support, dynamic ARIA tags (`aria-live`, `aria-busy`), semantic HTML, and high-contrast visuals conforming to WCAG standards.
 
 ## 💻 Tech Stack
-- Frontend: HTML5, CSS3, Vanilla ES6 JavaScript
-- Build Tool: Vite
-- Testing: Jest
-- APIs: Gemini API, Google Maps API, Firebase
 
-## ⚙️ How to Run
+- **Frontend**: HTML5, CSS3, Vanilla ES6 JavaScript (No heavy frameworks for blazing fast performance).
+- **Build Tool**: Vite (for rapid development and optimized production bundling).
+- **Testing Framework**: Jest with JSDOM and Code Coverage reporting.
+- **Cloud & AI Services**:
+  - Google Gemini API (Generative Language)
+  - Google Maps JavaScript API
+  - Firebase App, Firestore, Analytics (v9 Modular SDK)
+- **CI/CD**: GitHub Actions for automated testing and linting.
 
-1. **Install Dependencies**
+## ⚙️ Setup Instructions
+
+Follow these steps to set up the project locally:
+
+1. **Clone the Repository**
+   ```bash
+   git clone <your-repository-url>
+   cd Election-Process-Assistant
+   ```
+
+2. **Install Dependencies**
+   Ensure you have Node.js v18+ installed, then run:
    ```bash
    npm install
    ```
 
-2. **Configure Environment Variables**
-   Create a `.env` file in the root based on `.env.example`:
-   ```bash
-   VITE_GEMINI_API_KEY=your_gemini_api_key
-   VITE_GOOGLE_MAPS_API_KEY=your_maps_key
-   VITE_FIREBASE_API_KEY=your_firebase_key
-   VITE_FIREBASE_PROJECT_ID=your_project_id
+3. **Configure Environment Variables**
+   Create a `.env` file in the root directory (you can use `.env.example` as a template) and add your API credentials:
+   ```env
+   VITE_GEMINI_API_KEY=your_gemini_api_key_here
+   VITE_MAPS_API_KEY=your_google_maps_api_key_here
+   VITE_FIREBASE_CONFIG={"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"...","measurementId":"..."}
    ```
+   *Note: Ensure `VITE_FIREBASE_CONFIG` is a valid stringified JSON object containing your Firebase project credentials.*
 
-3. **Start Development Server**
+4. **Start the Development Server**
    ```bash
    npm start
    ```
+   This will spin up the Vite development server, usually accessible at `http://localhost:5173`.
 
-4. **Run Jest Tests**
+## 🧪 How to Run Tests
+
+The application is comprehensively covered by a robust Jest test suite targeting components like the AI assistant, map rendering logic, and Firestore connections.
+
+- **Run Standard Tests:**
+  ```bash
+  npm test
+  ```
+
+- **Run Tests with Code Coverage:**
+  ```bash
+  npm run test:coverage
+  ```
+  *Coverage reports are generated in the `coverage/` directory. Open `coverage/lcov-report/index.html` in your browser for detailed insights.*
+
+- **Run Code Linter:**
+  ```bash
+  npm run lint
+  ```
+
+## 🚀 Deployment Steps
+
+The project is optimized for deployment on modern static hosting platforms like Firebase Hosting, Vercel, or Netlify.
+
+### General Build Process
+1. Run the build script to generate the optimized production bundle:
    ```bash
-   npm test
+   npm run build
    ```
+2. The bundled static files will be placed into the `dist/` directory.
+
+### Deploying to Firebase Hosting
+1. Install the Firebase CLI globally if you haven't already:
+   ```bash
+   npm install -g firebase-tools
+   ```
+2. Login to your Firebase account:
+   ```bash
+   firebase login
+   ```
+3. Initialize Firebase in the repository (if not done yet):
+   ```bash
+   firebase init hosting
+   ```
+   *Select your project, set the public directory to `dist`, configure as a single-page app (`No`), and set up automatic builds/deploys via GitHub if desired.*
+4. Deploy the application:
+   ```bash
+   firebase deploy --only hosting
+   ```
+
+---
+*Developed with ❤️ for the Google AI Hackathon.*

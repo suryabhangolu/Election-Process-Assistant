@@ -24,12 +24,36 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://maps.googleapis.com https://generativelanguage.googleapis.com https://*.firebaseio.com https://*.firebase.com https://*.firebaseapp.com; img-src 'self' data: https://maps.gstatic.com https://maps.googleapis.com; script-src 'self' 'nonce-secure_nonce_123' https://maps.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
     <meta name="description" content="Election Mitra - Your AI guide to the Indian election process.">
     <title>Election Mitra</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- PERFORMANCE: Import Map to resolve bare module specifiers natively without Vite -->
+    <script type="importmap" nonce="secure_nonce_123">
+      {
+        "imports": {
+          "firebase/app": "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js",
+          "firebase/analytics": "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js",
+          "firebase/firestore": "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js"
+        }
+      }
+    </script>
+
 
     <!-- PERFORMANCE: Inlined Critical Above-The-Fold CSS -->
     <style nonce="secure_nonce_123">
-        :root { --bg-primary: #12051f; --bg-secondary: #2b1141; --text-primary: #ffffff; --accent: #facc15; --focus-ring: #60a5fa; }
+        :root { 
+            --bg-primary: #0a0512; 
+            --bg-secondary: rgba(255, 255, 255, 0.05); 
+            --text-primary: #ffffff; 
+            --text-secondary: #a395b3;
+            --accent: #facc15; 
+            --focus-ring: #60a5fa; 
+            --gradient-1: linear-gradient(135deg, #662d8c 0%, #ed1e79 100%);
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg-primary); color: var(--text-primary); font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; display: flex; flex-direction: column; height: 100vh; font-size: 16px; }
+        body { background: radial-gradient(circle at top right, #240b36, #000000); background-attachment: fixed; color: var(--text-primary); font-family: 'Outfit', system-ui, -apple-system, sans-serif; line-height: 1.6; display: flex; flex-direction: column; height: 100vh; font-size: 16px; }
         .app-header { background-color: var(--bg-secondary); padding: 1.25rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
         #app-title { text-align: center; color: var(--accent); margin-bottom: 1rem; font-size: 1.75rem; }
         nav { display: flex; gap: 0.75rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
@@ -44,9 +68,8 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 
-    <!-- PERFORMANCE: Async CSS Loading for non-critical styles -->
-    <link rel="preload" href="css/style.css" as="style">
-    <noscript><link rel="stylesheet" href="css/style.css"></noscript>
+    <!-- PERFORMANCE: Load non-critical styles -->
+    <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
     <a href="#main-content" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
@@ -67,9 +90,16 @@
         <section id="chat-section" class="tab-content active" aria-labelledby="chat-heading">
             <h2 id="chat-heading" class="sr-only">AI Assistant Chat</h2>
             <div class="chat-container" role="log" aria-live="polite" aria-busy="false" id="chat-log">
-                <div class="message ai-message" tabindex="0">Namaste! I am Election Mitra, powered by Gemini 1.5 Flash. Ask me anything about the Indian election process in Hindi, English, or Punjabi!</div>
+                <div class="message ai-message" tabindex="0">Namaste! I am Election Mitra, powered by Gemini AI. Ask me anything about the Indian election process!</div>
             </div>
             
+            <div class="chat-suggestions" aria-label="Suggested questions">
+                <button class="suggestion-chip">What is the voting age?</button>
+                <button class="suggestion-chip">How to register?</button>
+                <button class="suggestion-chip">What documents are needed?</button>
+                <button class="suggestion-chip">What is NOTA?</button>
+            </div>
+
             <form id="chat-form" aria-label="Chat Form">
                 <label for="chat-input" class="sr-only">Type your message</label>
                 <input type="text" id="chat-input" aria-label="Chat input field" aria-required="true" aria-describedby="chat-error" placeholder="Ask about voting..." required>

@@ -1,21 +1,27 @@
 import { CONFIG } from './config.js';
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
+
+export let app, analytics, db;
 
 /**
- * Firebase Integration for Analytics and Hosting
+ * Initializes Firebase App, Analytics, and Firestore instances using configuration.
+ * Sets the module-level exports to the initialized instances.
  */
-
 export const initFirebase = () => {
-    // SECURITY DECISION: Load configurations dynamically from central module (via .env)
-    const firebaseConfig = CONFIG.FIREBASE_CONFIG;
+    try {
+        const firebaseConfig = CONFIG.FIREBASE_CONFIG;
 
-    if (!firebaseConfig) {
-        console.warn("Firebase config is missing from environment variables.");
-        return;
+        if (!firebaseConfig || typeof firebaseConfig !== 'object') {
+            console.warn("Firebase config is missing or invalid in environment variables.");
+            return;
+        }
+
+        app = initializeApp(firebaseConfig);
+        analytics = getAnalytics(app);
+        db = getFirestore(app);
+    } catch (error) {
+        console.error("Firebase initialization error:", error);
     }
-
-    // Example Initialization for deployment:
-    // import { initializeApp } from "firebase/app";
-    // import { getAnalytics } from "firebase/analytics";
-    // const app = initializeApp(firebaseConfig);
-    // const analytics = getAnalytics(app);
 };
