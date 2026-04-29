@@ -1,142 +1,93 @@
-# 🇮🇳 Election Mitra — AI-Powered Election Education Platform
+# 🗳️ Election Process Assistant
 
-> **Aapka Apna Native Election Assistant** | Built for the Google AI Hackathon
+> An AI-powered assistant that helps Indian citizens understand and navigate the complete election process — built with Google Gemini AI, Firebase, and Google Maps.
 
-[![Gemini AI](https://img.shields.io/badge/Gemini_1.5_Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
-[![Firebase](https://img.shields.io/badge/Firebase_Hosting-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Google Maps](https://img.shields.io/badge/Google_Maps_API-34A853?style=for-the-badge&logo=google-maps&logoColor=white)](https://developers.google.com/maps)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Jest](https://img.shields.io/badge/Jest_Tested-C21325?style=for-the-badge&logo=jest&logoColor=white)](https://jestjs.io/)
-[![WCAG 2.1 AA](https://img.shields.io/badge/WCAG_2.1_AA-Compliant-2E8B57?style=for-the-badge)](https://www.w3.org/WAI/WCAG21/quickref/)
+![Evaluation Score](https://img.shields.io/badge/AI%20Evaluation-92.37%25-blue)
+![Firebase](https://img.shields.io/badge/Firebase-Hosting%20%7C%20Firestore%20%7C%20Analytics-orange)
+![Gemini AI](https://img.shields.io/badge/Google-Gemini%20AI-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ---
 
-## 🎯 Problem Statement
+## 🚀 Live Demo
 
-India has **96.8 crore registered voters** — yet millions remain uninformed about:
-- How to register / verify their name on voter rolls
-- Where their polling booth is located
-- What their voting rights actually are
-- Election processes in their own regional language
-
-**Election Mitra** solves this with an AI-powered, fully accessible, multilingual web app — bringing civic education to every citizen, on any device, in any language.
+🌐 **[election-process-assistant.web.app](https://election-process-assistant.web.app)**
 
 ---
 
-## ✨ Live Demo
+## ✨ Features
 
-🔗 **[election-mitra.web.app](https://election-mitra.web.app)** *(Firebase Hosted)*
-
----
-
-## 🏆 Hackathon Scoring — All 6 Criteria Fulfilled
-
-### 1. 🧹 Code Quality
-
-| Practice | Implementation |
-|---|---|
-| Modular Architecture | Separate ES6 modules: `app.js`, `gemini.js`, `maps.js`, `firebase.js` |
-| Clean Code | Descriptive variable names, JSDoc comments, zero `console.log` in production |
-| Separation of Concerns | UI logic, API calls, and analytics are fully decoupled |
-| Build Tool | Vite for fast HMR dev + optimized production builds |
-
-### 2. 🔐 Security
-
-| Threat | Mitigation |
-|---|---|
-| API Key Exposure | Keys loaded exclusively via `import.meta.env` (Vite) — never hardcoded |
-| XSS Attacks | User input rendered via `textContent` before `innerHTML` conversion — DOM-safe |
-| Content Security Policy | Strict CSP `<meta>` tags: `script-src` and `connect-src` restricted to Google/Firebase origins only |
-| Secret Leak Prevention | `.env` is in `.gitignore`; only `.env.example` (with empty values) is committed |
-
-### 3. ⚡ Efficiency
-
-| Optimization | Details |
-|---|---|
-| Lazy Loading | Google Maps JS API is **not** loaded on boot — injected dynamically only when "Booth Finder" tab is clicked |
-| Zero Dependencies | Pure Vanilla HTML, CSS, JS — no jQuery, no Bootstrap, no bloat |
-| Tiny Bundle | Entire codebase is a few KB — far under the 10MB limit |
-| Inline SVGs | All icons/images are inline SVGs — zero HTTP requests for assets |
-| Deferred Scripts | Non-critical JS uses `defer` attribute |
-
-### 4. 🧪 Testing
-
-Unit tests written with **Jest**, covering the most critical application logic:
-
-```bash
-npm test
-```
-
-| Test Suite | What It Covers |
-|---|---|
-| XSS Sanitization | Verifies malicious HTML tags are stripped from chat input |
-| Quiz Boolean Logic | Validates correct/incorrect answer evaluation |
-| Prompt Formatting | Ensures Gemini prompt is correctly structured before API call |
-
-> Tests located in `tests/app.test.js`
-
-### 5. ♿ Accessibility (WCAG 2.1 AA Compliant)
-
-Full compliance — verified against WCAG 2.1 Level AA guidelines:
-
-- **Color Contrast** — Dark purple (`#12051f`) + Yellow (`#facc15`) theme exceeds the minimum 4.5:1 ratio
-- **Screen Reader Support** — `aria-live="polite"` on chat/quiz containers so dynamic updates are announced automatically
-- **Keyboard Navigation** — All interactive elements reachable via Tab; custom `focus-visible` rings on every button
-- **Skip Link** — "Skip to main content" is the very first element in the DOM
-- **ARIA Attributes** — `aria-expanded`, `aria-controls` on all tabs; `aria-label` on all icon buttons
-- **Alt Text** — Every SVG has a descriptive `aria-label`; decorative SVGs have `aria-hidden="true"`
-- **SR-Only Content** — `.sr-only` class used for context that is visually implied but needs to be spoken
-
-### 6. 🟦 Google Services Integration
-
-| Service | How It's Used |
-|---|---|
-| **Gemini 1.5 Flash** | Powers the multilingual AI chat — answers voter questions in Hindi, English, and regional languages |
-| **Google Maps JS API** | Interactive map in the Booth Finder tab — shows nearest polling stations with markers |
-| **Firebase Hosting** | Production deployment with global CDN, custom domain, and HTTPS |
-| **Firebase Analytics** | Tracks feature usage (which questions are asked most, which tabs are used) |
+- 🤖 **Gemini AI Powered Q&A** — Ask anything about the Indian election process in Hindi or English
+- 🗺️ **Google Maps Integration** — Find your nearest polling station by location
+- 🔥 **Firebase Firestore** — Stores user queries and responses in real-time
+- 📊 **Firebase Analytics** — Tracks user interactions and page views
+- 🔐 **Secure Configuration** — Environment-based API key management
+- 🌐 **Bilingual Support** — Responds in Hindi and English
+- ♿ **Accessible Design** — Built with inclusive interaction patterns
+- ⚡ **Optimized Performance** — Fast load times with efficient resource usage
 
 ---
 
-## 🌟 Key Features
+## 🛠️ Tech Stack
 
-### 🤖 AI Smart Assistant (Gemini Powered)
-Ask anything in **Hindi, English, Punjabi, or any Indian language**. The assistant answers questions about voter registration, EPIC cards, booth locations, election dates, voting rights, and more — in a friendly, conversational Hinglish tone.
-
-### 🗺️ Polling Booth Finder (Google Maps)
-Enter your **Pin Code** → instantly see your nearest polling booths on an interactive Google Map with address and timing details.
-
-### 📋 Step-by-Step Voter Registration Guide
-Visual, numbered guide walking first-time voters through Form 6, the Voter Helpline App, and online registration at `voters.eci.gov.in`.
-
-### 🧠 Election Quiz
-Gamified quiz to test and improve knowledge of Indian election law, voting procedures, and voter rights. Includes instant feedback and score tracking.
-
-### 📜 Voting Rights & EVM Information
-Clear, card-based information on voter rights, EVM/VVPAT process, election code of conduct, and how to report violations.
+| Technology | Usage |
+|---|---|
+| Google Gemini AI | Natural language Q&A engine |
+| Firebase Firestore | Real-time database for query storage |
+| Firebase Analytics | User behavior tracking |
+| Firebase Hosting | Production deployment |
+| Google Maps API | Polling station finder |
+| Vanilla JavaScript | Frontend logic |
+| Jest | Unit and integration testing |
+| GitHub Actions | CI/CD pipeline |
 
 ---
 
-## 💻 Tech Stack
+## 📁 Project Structure
 
 ```
-Frontend     → HTML5, CSS3, Vanilla ES6 JavaScript
-Build Tool   → Vite
-AI           → Google Gemini 1.5 Flash API
-Maps         → Google Maps JavaScript API
-Hosting      → Firebase Hosting
-Analytics    → Firebase Analytics
-Testing      → Jest
+Election-Process-Assistant/
+├── .github/
+│   └── workflows/
+│       └── ci.yml          # GitHub Actions CI/CD
+├── assets/
+│   └── idle.json           # Lottie animation
+├── css/
+│   └── style.css           # Main stylesheet
+├── js/
+│   ├── app.js              # Main application logic
+│   ├── analytics.js        # Firebase Analytics tracking
+│   ├── config.js           # Configuration management
+│   ├── firebase.js         # Firebase initialization
+│   ├── firestore.js        # Firestore database operations
+│   ├── gemini.js           # Gemini AI integration
+│   ├── maps.js             # Google Maps integration
+│   └── mockApi.js          # Mock API for testing
+├── tests/
+│   ├── app.test.js         # App logic tests
+│   ├── firebase.test.js    # Firebase tests
+│   ├── gemini.test.js      # Gemini AI tests
+│   └── maps.test.js        # Maps tests
+├── .env.example            # Environment variables template
+├── firebase.json           # Firebase configuration
+├── index.html              # Main HTML file
+├── package.json            # Dependencies and scripts
+└── README.md               # Project documentation
 ```
 
 ---
 
-## ⚙️ How to Run Locally
+## ⚙️ Setup & Installation
+
+### Prerequisites
+- Node.js v18+
+- Firebase account
+- Google Cloud account (for Gemini AI + Maps API)
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/election-mitra.git
-cd election-mitra
+git clone https://github.com/YOUR_USERNAME/Election-Process-Assistant.git
+cd Election-Process-Assistant
 ```
 
 ### 2. Install Dependencies
@@ -145,104 +96,117 @@ npm install
 ```
 
 ### 3. Configure Environment Variables
-
-Create a `.env` file in the project root based on `.env.example`:
-
 ```bash
 cp .env.example .env
 ```
 
-Fill in your keys:
+Edit `.env` and add your API keys:
 ```env
-VITE_GEMINI_API_KEY=your_gemini_api_key_here
-VITE_GOOGLE_MAPS_API_KEY=your_maps_key_here
-VITE_FIREBASE_API_KEY=your_firebase_key_here
-VITE_FIREBASE_PROJECT_ID=your_project_id_here
+GEMINI_API_KEY=your_gemini_api_key_here
+FIREBASE_API_KEY=your_firebase_api_key_here
+FIREBASE_PROJECT_ID=your_project_id_here
+MAPS_API_KEY=your_maps_api_key_here
 ```
 
-> ⚠️ **Never commit your `.env` file.** It is already in `.gitignore`.
-
-### 4. Start Development Server
+### 4. Firebase Setup
 ```bash
-npm start
+npm install -g firebase-tools
+firebase login
+firebase init
 ```
-App runs at `http://localhost:5173`
 
-### 5. Run Tests
+---
+
+## 🧪 Running Tests
+
 ```bash
+# Run all tests
 npm test
+
+# Run tests with coverage report
+npm run test:coverage
+
+# Watch mode (auto re-run on file changes)
+npm run test:watch
 ```
 
-### 6. Build for Production
-```bash
-npm run build
-```
+### Test Coverage Goals
+| Module | Coverage |
+|---|---|
+| app.js | 85%+ |
+| gemini.js | 90%+ |
+| firestore.js | 85%+ |
+| maps.js | 80%+ |
 
-### 7. Deploy to Firebase
+---
+
+## 🚀 Deployment
+
+### Deploy to Firebase Hosting
 ```bash
-npm run build
+# Build and deploy
 firebase deploy
+
+# Preview before deploying
+firebase hosting:channel:deploy preview
 ```
+
+### CI/CD Pipeline
+Every push to `main` branch automatically:
+1. Installs dependencies
+2. Runs all tests
+3. Checks code linting
+4. Deploys to Firebase (on success)
 
 ---
 
-## 📁 Project Structure
+## 🗣️ How to Use
 
-```
-election-mitra/
-├── index.html              # Main HTML — semantic, accessible markup
-├── .env.example            # Template for required environment variables
-├── .gitignore              # Excludes .env and node_modules
-├── vite.config.js          # Vite build configuration
-├── package.json            # Dependencies and npm scripts
-├── firebase.json           # Firebase hosting config with cache headers
-│
-├── css/
-│   └── style.css           # Mobile-first responsive styles
-│
-├── js/
-│   ├── app.js              # Main app logic, tab navigation, UI state
-│   ├── gemini.js           # Gemini API integration, prompt formatting
-│   ├── maps.js             # Google Maps lazy loader, booth marker logic
-│   └── firebase.js         # Firebase init, analytics event logging
-│
-└── tests/
-    └── app.test.js         # Jest unit tests
-```
+1. **Open the app** in your browser
+2. **Type your question** in Hindi or English, for example:
+   - *"मतदाता पहचान पत्र कैसे बनवाएं?"*
+   - *"How do I register to vote in India?"*
+   - *"What is Form 6 for voter registration?"*
+3. **Find polling station** — click the map icon and allow location access
+4. **Get instant AI answers** powered by Google Gemini
 
 ---
 
-## 🔒 Security Notes
+## 📊 AI Evaluation Scores
 
-- API keys are **never** present in the committed codebase
-- Content Security Policy is enforced via `<meta http-equiv="Content-Security-Policy">` restricting all external connections to Google-owned domains
-- All user input to Gemini is sanitized to prevent XSS before rendering
-- Firebase security rules are configured to allow only read access on public data
-
----
-
-## 🌐 Accessibility Statement
-
-Election Mitra is built for **every Indian citizen**, including those using assistive technologies. It meets **WCAG 2.1 Level AA** standards and has been tested for:
-
-- VoiceOver (macOS/iOS)
-- NVDA (Windows)
-- Keyboard-only navigation
+| Category | Score |
+|---|---|
+| Efficiency | 100% |
+| Accessibility | 98.75% |
+| Problem Statement Alignment | 98% |
+| Security | 97.5% |
+| Code Quality | 86.25% |
+| Testing | 82.5% |
+| Google Services | 75% |
+| **Overall** | **92.37%** |
 
 ---
 
 ## 🤝 Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you'd like to change. Make sure all `npm test` tests pass before submitting a PR.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
 ## 📄 License
 
-MIT License — free to use, modify, and distribute.
+This project is licensed under the MIT License.
 
 ---
 
-## 👨‍💻 Built With ❤️ for Bharat
+## 👨‍💻 Author
 
-*Election Mitra — Har vote ki awaaz, AI ki zubaani.*
+Built for **PromptWars Hackathon** on the **Antigravity Platform**
+
+---
+
+*Empowering every Indian citizen to participate in democracy* 🇮🇳
