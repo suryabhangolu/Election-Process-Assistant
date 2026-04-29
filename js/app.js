@@ -149,7 +149,7 @@ const init = () => {
         // Load CSS dynamically for CSP compatibility
         const cssLink = document.createElement('link');
         cssLink.rel = 'stylesheet';
-        cssLink.href = 'css/style.css';
+        cssLink.href = './css/style.css';
         document.head.appendChild(cssLink);
 
         initFirebase();
