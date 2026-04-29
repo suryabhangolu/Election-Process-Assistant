@@ -1,41 +1,43 @@
-# 🗳️ Election Process Assistant
+# 🗳️ Election Mitra IN
 
-> An AI-powered assistant that helps Indian citizens understand and navigate the complete election process — built with Google Gemini AI, Firebase, and Google Maps.
+> An AI-powered assistant that helps every Indian citizen understand and navigate the complete election process — in Hindi and English.
 
-![Evaluation Score](https://img.shields.io/badge/AI%20Evaluation-92.37%25-blue)
 ![Firebase](https://img.shields.io/badge/Firebase-Hosting%20%7C%20Firestore%20%7C%20Analytics-orange)
-![Gemini AI](https://img.shields.io/badge/Google-Gemini%20AI-green)
+![Gemini AI](https://img.shields.io/badge/Google-Gemini%20AI-blue)
+![Maps](https://img.shields.io/badge/Google-Maps%20API-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
+![CI](https://img.shields.io/badge/CI-GitHub%20Actions-brightgreen)
 
 ---
 
-## 🚀 Live Demo
+## 🌐 Live Demo
 
-🌐 **[election-process-assistant.web.app](https://election-process-assistant.web.app)**
+👉 **[election-process-494716.web.app](https://election-process-494716.web.app)**
 
 ---
 
 ## ✨ Features
 
-- 🤖 **Gemini AI Powered Q&A** — Ask anything about the Indian election process in Hindi or English
-- 🗺️ **Google Maps Integration** — Find your nearest polling station by location
-- 🔥 **Firebase Firestore** — Stores user queries and responses in real-time
-- 📊 **Firebase Analytics** — Tracks user interactions and page views
-- 🔐 **Secure Configuration** — Environment-based API key management
-- 🌐 **Bilingual Support** — Responds in Hindi and English
-- ♿ **Accessible Design** — Built with inclusive interaction patterns
-- ⚡ **Optimized Performance** — Fast load times with efficient resource usage
+- 🤖 **AI Chat** — Ask anything about Indian elections powered by Google Gemini AI
+- 📋 **Registration Guide** — Step-by-step voter registration walkthrough
+- 🗺️ **Booth Finder** — Locate your nearest polling station with Google Maps
+- 📝 **Election Quiz** — Test your knowledge about the election process
+- ⚖️ **Voter Rights** — Know your rights as an Indian voter
+- 🌐 **Bilingual Support** — Fully supports Hindi and English
+- ♿ **Accessible Design** — Inclusive interaction patterns for all users
+- 🔐 **Secure** — Environment-based API key management
+- ⚡ **Fast Performance** — Optimized load times and efficient resource usage
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Technology | Usage |
+| Technology | Purpose |
 |---|---|
 | Google Gemini AI | Natural language Q&A engine |
+| Firebase Hosting | Live production deployment |
 | Firebase Firestore | Real-time database for query storage |
-| Firebase Analytics | User behavior tracking |
-| Firebase Hosting | Production deployment |
+| Firebase Analytics | User behavior and event tracking |
 | Google Maps API | Polling station finder |
 | Vanilla JavaScript | Frontend logic |
 | Jest | Unit and integration testing |
@@ -49,30 +51,30 @@
 Election-Process-Assistant/
 ├── .github/
 │   └── workflows/
-│       └── ci.yml          # GitHub Actions CI/CD
+│       └── ci.yml           # GitHub Actions CI/CD
 ├── assets/
-│   └── idle.json           # Lottie animation
+│   └── idle.json            # Lottie animation
 ├── css/
-│   └── style.css           # Main stylesheet
+│   └── style.css            # Main stylesheet
 ├── js/
-│   ├── app.js              # Main application logic
-│   ├── analytics.js        # Firebase Analytics tracking
-│   ├── config.js           # Configuration management
-│   ├── firebase.js         # Firebase initialization
-│   ├── firestore.js        # Firestore database operations
-│   ├── gemini.js           # Gemini AI integration
-│   ├── maps.js             # Google Maps integration
-│   └── mockApi.js          # Mock API for testing
+│   ├── app.js               # Main application logic
+│   ├── analytics.js         # Firebase Analytics tracking
+│   ├── config.js            # Configuration management
+│   ├── firebase.js          # Firebase initialization
+│   ├── firestore.js         # Firestore database operations
+│   ├── gemini.js            # Gemini AI integration
+│   ├── maps.js              # Google Maps integration
+│   └── mockApi.js           # Mock API for testing
 ├── tests/
-│   ├── app.test.js         # App logic tests
-│   ├── firebase.test.js    # Firebase tests
-│   ├── gemini.test.js      # Gemini AI tests
-│   └── maps.test.js        # Maps tests
-├── .env.example            # Environment variables template
-├── firebase.json           # Firebase configuration
-├── index.html              # Main HTML file
-├── package.json            # Dependencies and scripts
-└── README.md               # Project documentation
+│   ├── app.test.js          # App logic tests
+│   ├── firebase.test.js     # Firebase tests
+│   ├── gemini.test.js       # Gemini AI tests
+│   └── maps.test.js         # Maps tests
+├── .env.example             # Environment variables template
+├── firebase.json            # Firebase configuration
+├── index.html               # Main HTML file
+├── package.json             # Dependencies and scripts
+└── README.md                # Project documentation
 ```
 
 ---
@@ -86,7 +88,7 @@ Election-Process-Assistant/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/Election-Process-Assistant.git
+git clone https://github.com/suryabhangolu/Election-Process-Assistant.git
 cd Election-Process-Assistant
 ```
 
@@ -101,7 +103,7 @@ cp .env.example .env
 ```
 
 Edit `.env` and add your API keys:
-```env
+```
 GEMINI_API_KEY=your_gemini_api_key_here
 FIREBASE_API_KEY=your_firebase_api_key_here
 FIREBASE_PROJECT_ID=your_project_id_here
@@ -123,28 +125,19 @@ firebase init
 # Run all tests
 npm test
 
-# Run tests with coverage report
+# Run with coverage report
 npm run test:coverage
 
-# Watch mode (auto re-run on file changes)
+# Watch mode
 npm run test:watch
 ```
-
-### Test Coverage Goals
-| Module | Coverage |
-|---|---|
-| app.js | 85%+ |
-| gemini.js | 90%+ |
-| firestore.js | 85%+ |
-| maps.js | 80%+ |
 
 ---
 
 ## 🚀 Deployment
 
-### Deploy to Firebase Hosting
 ```bash
-# Build and deploy
+# Deploy to Firebase Hosting
 firebase deploy
 
 # Preview before deploying
@@ -156,43 +149,30 @@ Every push to `main` branch automatically:
 1. Installs dependencies
 2. Runs all tests
 3. Checks code linting
-4. Deploys to Firebase (on success)
+4. Reports results
 
 ---
 
-## 🗣️ How to Use
+## 💬 How to Use
 
-1. **Open the app** in your browser
-2. **Type your question** in Hindi or English, for example:
+1. Open the **live link** above
+2. Click **AI Chat** tab
+3. Type your question in Hindi or English:
    - *"मतदाता पहचान पत्र कैसे बनवाएं?"*
    - *"How do I register to vote in India?"*
-   - *"What is Form 6 for voter registration?"*
-3. **Find polling station** — click the map icon and allow location access
-4. **Get instant AI answers** powered by Google Gemini
-
----
-
-## 📊 AI Evaluation Scores
-
-| Category | Score |
-|---|---|
-| Efficiency | 100% |
-| Accessibility | 98.75% |
-| Problem Statement Alignment | 98% |
-| Security | 97.5% |
-| Code Quality | 86.25% |
-| Testing | 82.5% |
-| Google Services | 75% |
-| **Overall** | **92.37%** |
+   - *"What is NOTA?"*
+   - *"What is Form 6?"*
+4. Use **Booth Finder** to locate your nearest polling station
+5. Take the **Quiz** to test your election knowledge
 
 ---
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your branch: `git checkout -b feature/AmazingFeature`
+3. Commit changes: `git commit -m 'Add AmazingFeature'`
+4. Push: `git push origin feature/AmazingFeature`
 5. Open a Pull Request
 
 ---
@@ -203,10 +183,10 @@ This project is licensed under the MIT License.
 
 ---
 
-## 👨‍💻 Author
+<div align="center">
 
-Built for **PromptWars Hackathon** on the **Antigravity Platform**
-
----
+Built with ❤️ for **PromptWars Hackathon** on the **Antigravity Platform**
 
 *Empowering every Indian citizen to participate in democracy* 🇮🇳
+
+</div>
