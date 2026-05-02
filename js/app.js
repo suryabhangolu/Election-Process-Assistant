@@ -132,6 +132,7 @@ const quizData = [
 ];
 
 let currentQuestionIndex = 0;
+let score = 0;
 
 /**
  * Handles user interaction when an option is selected in the quiz.
@@ -142,7 +143,7 @@ const handleQuizAnswer = (e) => {
   const isCorrect = checkAnswer(e.target.getAttribute('data-correct'));
   const quizBtns = document.querySelectorAll('.quiz-btn');
   const feedback = document.getElementById('quiz-feedback');
-  const nextBtn = document.getElementById('next-question-btn');
+  const nextBtn = document.getElementById('quiz-next-btn');
 
   // Disable all options
   quizBtns.forEach(b => {
@@ -155,12 +156,13 @@ const handleQuizAnswer = (e) => {
   if (isCorrect) {
     e.target.classList.add('correct');
     feedback.textContent = "Correct!";
-    feedback.className = "success-text mt-4 font-bold text-accent";
+    feedback.className = "quiz-feedback success-text mt-4 font-bold text-accent";
+    score++;
     trackUserAction("quiz_answer", { result: "correct" });
   } else {
     e.target.classList.add('wrong');
     feedback.textContent = "Incorrect. Try again next time!";
-    feedback.className = "error-text mt-4 font-bold text-accent";
+    feedback.className = "quiz-feedback error-text mt-4 font-bold text-accent";
     trackUserAction("quiz_answer", { result: "incorrect" });
   }
 
@@ -171,6 +173,10 @@ const handleQuizAnswer = (e) => {
     nextBtn.textContent = "Quiz Completed";
     nextBtn.classList.remove('hidden');
     nextBtn.disabled = true;
+    const scoreEl = document.getElementById('quiz-score');
+    if (scoreEl) {
+      scoreEl.textContent = `You scored ${score} out of ${quizData.length}!`;
+    }
   }
 };
 
@@ -180,9 +186,9 @@ const handleQuizAnswer = (e) => {
  */
 const renderQuizQuestion = () => {
   const questionEl = document.getElementById('quiz-question');
-  const optionsContainer = document.getElementById('quiz-options-container');
+  const optionsContainer = document.getElementById('quiz-options');
   const feedback = document.getElementById('quiz-feedback');
-  const nextBtn = document.getElementById('next-question-btn');
+  const nextBtn = document.getElementById('quiz-next-btn');
 
   if (!questionEl || !optionsContainer || !feedback || !nextBtn) return;
 
@@ -213,7 +219,7 @@ const renderQuizQuestion = () => {
  */
 const setupQuiz = () => {
   try {
-    const nextBtn = document.getElementById('next-question-btn');
+    const nextBtn = document.getElementById('quiz-next-btn');
     if (!nextBtn) return;
     
     nextBtn.addEventListener('click', () => {
@@ -235,7 +241,7 @@ const setupQuiz = () => {
  */
 const setupRightsCards = () => {
   try {
-    const rightCards = document.querySelectorAll('.right-card');
+    const rightCards = document.querySelectorAll('article.card[data-card]');
     rightCards.forEach(card => {
       card.addEventListener('click', () => {
         card.classList.toggle('highlight');

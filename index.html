@@ -21,7 +21,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://maps.googleapis.com https://generativelanguage.googleapis.com https://*.firebaseio.com https://*.firebase.com https://*.firebaseapp.com https://firebaselogging.googleapis.com https://identitytoolkit.googleapis.com; img-src 'self' data: https://maps.gstatic.com https://maps.googleapis.com; script-src 'self' 'nonce-secure_nonce_123' https://maps.googleapis.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://maps.googleapis.com https://generativelanguage.googleapis.com https://*.firebaseio.com https://*.firebase.com https://*.firebaseapp.com https://firebaselogging.googleapis.com https://identitytoolkit.googleapis.com; img-src 'self' data: https://maps.gstatic.com https://maps.googleapis.com; script-src 'self' 'unsafe-inline' https://maps.googleapis.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
     <meta name="description" content="Election Mitra - Your AI guide to the Indian election process.">
     <title>Election Mitra</title>
     
@@ -30,7 +30,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <!-- PERFORMANCE: Import Map to resolve bare module specifiers natively without Vite -->
-    <script type="importmap" nonce="secure_nonce_123">
+    <script type="importmap">
       {
         "imports": {
           "firebase/app": "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js",
@@ -42,7 +42,7 @@
 
 
     <!-- PERFORMANCE: Inlined Critical Above-The-Fold CSS -->
-    <style nonce="secure_nonce_123">
+    <style>
         :root { 
             --bg-primary: #0a0512; 
             --bg-secondary: rgba(255, 255, 255, 0.05); 
@@ -69,7 +69,7 @@
     </style>
 
     <!-- PERFORMANCE: Load non-critical styles -->
-    <link rel="stylesheet" href="./css/style.css?v=4">
+    <link rel="stylesheet" href="./css/style.css?v=5">
 </head>
 <body>
     <a href="#main-content" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
@@ -100,11 +100,11 @@
                 <button class="suggestion-chip">What is NOTA?</button>
             </div>
 
-            <form id="chat-form" aria-label="Chat Form">
-                <label for="chat-input" class="sr-only">Type your message</label>
-                <input type="text" id="chat-input" aria-label="Chat input field" aria-required="true" aria-describedby="chat-error" placeholder="Ask about voting..." required>
-                <button type="submit" aria-label="Send message">Send</button>
-            </form>
+            <div class="chat-input-area" role="search" aria-label="Ask Election Mitra">
+              <label for="chat-input" class="sr-only">Type your election question</label>
+              <input type="text" id="chat-input" aria-label="Chat input field" aria-required="true" aria-describedby="chat-error" placeholder="Ask about voting, registration, NOTA..." autocomplete="off" maxlength="500">
+              <button id="chat-submit-btn" type="button" aria-label="Send message to Election Mitra">Send</button>
+            </div>
             <div id="chat-error" class="sr-only error-text" role="alert" aria-live="assertive"></div>
         </section>
 
@@ -116,6 +116,7 @@
                 <li tabindex="0"><strong>Step 2:</strong> Fill out Form 6 for new voter registration.</li>
                 <li tabindex="0"><strong>Step 3:</strong> Upload required documents (Age & Address proof).</li>
                 <li tabindex="0"><strong>Step 4:</strong> Submit and track your application status.</li>
+                <li tabindex="0"><strong>Step 5:</strong> Receive your <strong>Voter ID (EPIC)</strong> card by post or download an e-EPIC.</li>
             </ol>
         </section>
 
@@ -144,46 +145,45 @@
 
         <!-- Quiz Section -->
         <section id="quiz-section" class="tab-content hidden" aria-labelledby="quiz-heading">
-            <h2 id="quiz-heading">Election Quiz</h2>
-            <div id="quiz-container" aria-live="polite">
-                <p id="quiz-question" tabindex="0">Loading question...</p>
-                <div class="quiz-options" id="quiz-options-container">
-                    <!-- Options injected via JS -->
-                </div>
-                <p id="quiz-feedback" class="sr-only mt-4 font-bold text-accent" role="status" aria-live="polite"></p>
-                <button id="next-question-btn" class="nav-btn hidden mt-4" aria-label="Next Question">Next Question</button>
-            </div>
+          <h2 id="quiz-heading">Election Knowledge Quiz</h2>
+          <div id="quiz-container" aria-live="polite">
+            <p id="quiz-question" tabindex="0" aria-live="polite">Loading quiz...</p>
+            <div id="quiz-options" class="quiz-options" role="group" aria-labelledby="quiz-question"></div>
+            <p id="quiz-feedback" class="quiz-feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+            <button id="quiz-next-btn" type="button" class="hidden" aria-label="Next quiz question">Next Question →</button>
+          </div>
+          <p id="quiz-score" class="quiz-score" aria-live="polite"></p>
         </section>
 
         <!-- Rights Section -->
         <section id="rights-section" class="tab-content hidden" aria-labelledby="rights-heading">
             <h2 id="rights-heading">Voting Rights</h2>
             <div class="cards-grid">
-                <article class="card right-card" role="button" tabindex="0" aria-expanded="false" aria-label="Right to Vote Card">
+                <article class="card" role="listitem" tabindex="0" aria-expanded="false" aria-label="Right to Vote Card" data-card="vote">
                     <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23facc15'/></svg>" alt="" role="presentation" class="card-icon" width="40" height="40" loading="lazy">
                     <h3>Right to Vote</h3>
                     <p>Every citizen aged 18+ has the fundamental right to vote.</p>
                 </article>
-                <article class="card right-card" role="button" tabindex="0" aria-expanded="false" aria-label="NOTA Card">
+                <article class="card" role="listitem" tabindex="0" aria-expanded="false" aria-label="NOTA Card" data-card="nota">
                     <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23facc15'/></svg>" alt="" role="presentation" class="card-icon" width="40" height="40" loading="lazy">
                     <h3>NOTA</h3>
                     <p>Right to register "None of the Above" if you do not support any candidate.</p>
                 </article>
-                <article class="card right-card" role="button" tabindex="0" aria-expanded="false" aria-label="Secret Ballot Card">
+                <article class="card" role="listitem" tabindex="0" aria-expanded="false" aria-label="Secret Ballot Card" data-card="secret">
                     <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23facc15'/></svg>" alt="" role="presentation" class="card-icon" width="40" height="40" loading="lazy">
                     <h3>Secret Ballot</h3>
                     <p>Your vote is entirely confidential and protected by law.</p>
                 </article>
-                <article class="card right-card" role="button" tabindex="0" aria-expanded="false" aria-label="Right to Information Card">
-                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23facc15'/></svg>" alt="" role="presentation" class="card-icon" width="40" height="40" loading="lazy">
-                    <h3>Right to Information</h3>
-                    <p>You have the right to seek information regarding candidates and the election process.</p>
+                <article class="card" role="listitem" tabindex="0" aria-label="Right to Information" aria-expanded="false" data-card="rti">
+                  <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23facc15'/></svg>" alt="" role="presentation" class="card-icon" width="40" height="40" loading="lazy">
+                  <h3>Right to Information</h3>
+                  <p>Voters have the right to know candidates' criminal records and assets via affidavits.</p>
                 </article>
             </div>
         </section>
     </main>
 
     <!-- PERFORMANCE: Load scripts deferred securely as ES modules -->
-    <script type="module" src="./js/app.js" defer nonce="secure_nonce_123"></script>
+    <script type="module" src="./js/app.js" defer></script>
 </body>
 </html>

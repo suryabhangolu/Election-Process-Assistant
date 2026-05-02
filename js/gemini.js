@@ -58,8 +58,8 @@ const updateMessage = (id, text) => {
 };
 
 /**
- * Handles the submit event for the chat form.
- * @param {Event} e - The form submission event.
+ * Handles the submit event for the chat.
+ * @param {Event} e - The form submission or button click event.
  * @param {HTMLInputElement} chatInput - The input element.
  * @param {HTMLElement} chatLog - The chat log container.
  * @param {string} apiKey - The API key.
@@ -112,12 +112,12 @@ const handleChatSubmit = async (e, chatInput, chatLog, apiKey) => {
  */
 export const setupChat = () => {
   try {
-    const chatForm = document.getElementById('chat-form');
+    const chatSubmitBtn = document.getElementById('chat-submit-btn');
     const chatInput = document.getElementById('chat-input');
     const chatLog = document.getElementById('chat-log');
     const suggestionChips = document.querySelectorAll('.suggestion-chip');
 
-    if (!chatForm || !chatInput || !chatLog) return;
+    if (!chatSubmitBtn || !chatInput || !chatLog) return;
 
     // Security: Fetch API key safely from config module
     const apiKey = CONFIG.GEMINI_API_KEY || "MISSING_KEY";
@@ -126,12 +126,20 @@ export const setupChat = () => {
     suggestionChips.forEach(chip => {
       chip.addEventListener('click', () => {
         chatInput.value = chip.textContent;
-        // Trigger form submission securely
-        chatForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        // Trigger submit securely
+        chatSubmitBtn.click();
       });
     });
 
-    chatForm.addEventListener('submit', (e) => handleChatSubmit(e, chatInput, chatLog, apiKey));
+    chatSubmitBtn.addEventListener('click', (e) => handleChatSubmit(e, chatInput, chatLog, apiKey));
+    
+    // Support enter key in input
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        chatSubmitBtn.click();
+      }
+    });
   } catch (error) {
     console.error("Setup chat error:", error);
   }
