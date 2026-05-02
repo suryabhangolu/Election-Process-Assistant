@@ -1,6 +1,6 @@
 import { sanitizeInput, checkRateLimit } from '../utils/validation.js';
 import { fetchGeminiResponse } from '../services/geminiService.js';
-import { CONFIG } from '../config.js';
+import { CONFIG } from '../public/js/config.js?v=2';
 import { saveUserQuery } from '../services/firestoreService.js';
 
 /**

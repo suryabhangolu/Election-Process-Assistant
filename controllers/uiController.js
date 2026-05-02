@@ -1,4 +1,4 @@
-import { initMap } from '../services/mapsService.js';
+import { initMap } from '../services/mapsService.js?v=3';
 import { trackPageView } from '../services/analyticsService.js';
 
 /**

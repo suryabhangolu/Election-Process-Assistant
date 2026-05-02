@@ -1,9 +1,9 @@
-import { setupChat } from './controllers/chatController.js';
-import { setupQuiz } from './controllers/quizController.js';
-import { setupNavigation, setupRightsCards } from './controllers/uiController.js';
-import { initMap } from './services/mapsService.js';
-import { initFirebase } from './services/firebaseService.js';
-import { trackPageView } from './services/analyticsService.js';
+import { setupChat } from '../../controllers/chatController.js?v=3';
+import { setupQuiz } from '../../controllers/quizController.js?v=3';
+import { setupNavigation, setupRightsCards } from '../../controllers/uiController.js?v=3';
+import { initMap } from '../../services/mapsService.js?v=3';
+import { initFirebase } from '../../services/firebaseService.js?v=3';
+import { trackPageView } from '../../services/analyticsService.js?v=3';
 
 /**
  * @module app
@@ -18,7 +18,7 @@ import { trackPageView } from './services/analyticsService.js';
 const loadStyles = () => {
   const cssLink = document.createElement('link');
   cssLink.rel = 'stylesheet';
-  cssLink.href = './css/style.css';
+  cssLink.href = './public/css/style.css';
   document.head.appendChild(cssLink);
 };
 

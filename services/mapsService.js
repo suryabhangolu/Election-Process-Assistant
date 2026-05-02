@@ -1,4 +1,4 @@
-import { CONFIG } from '../config.js';
+import { CONFIG } from '../public/js/config.js?v=2';
 import { sanitizeInput } from '../utils/validation.js';
 import { trackSearch } from './analyticsService.js';
 

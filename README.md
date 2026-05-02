@@ -1,87 +1,77 @@
 # 🗳️ Election Process Assistant
 
-> A modular, secure, and AI-powered web application designed to guide Indian citizens through the complete election process using Gemini AI, Firebase, and Google Maps.
+> A modern, highly secure, and modular web application that guides citizens through the Indian election process. Built with a clean MVC architecture for maximum maintainability and testability.
 
-![Firebase](https://img.shields.io/badge/Firebase-Hosting%20%7C%20Firestore%20%7C%20Analytics-orange)
-![Gemini AI](https://img.shields.io/badge/Google-Gemini%20AI-blue)
-![Maps](https://img.shields.io/badge/Google-Maps%20API-green)
 ![Architecture](https://img.shields.io/badge/Architecture-MVC-purple)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+![Frontend](https://img.shields.io/badge/Frontend-Vanilla%20JS-yellow)
+![Testing](https://img.shields.io/badge/Testing-Jest-red)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
-## 📌 Problem Statement
+## 📌 Project Overview
 
-Navigating the Indian election process can be overwhelming for many citizens due to complex registration procedures, dispersed information regarding polling locations, and a lack of accessible resources. The Election Process Assistant solves this by providing a unified, AI-driven platform that offers real-time, multilingual guidance, booth finding, and civic education.
+The Election Process Assistant is designed to solve a critical real-world problem: helping citizens navigate the often complex and fragmented election process. 
+By providing an intuitive, centralized interface, this application offers real-time AI guidance, polling booth location tracking, educational quizzes, and a robust mock voting engine to demonstrate secure digital voting concepts.
+
+### Why This Project is Unique
+Unlike standard static educational sites, this project features a custom-built, hardened **Mock Voting Engine** with strict duplicate prevention and authentication checks, all running within a strictly organized MVC framework that mimics enterprise-level backend standards in a serverless frontend environment.
+
+---
 
 ## ✨ Features
 
-- **🤖 AI Chat (Gemini 2.0 Flash)** — Ask anything about Indian elections in English, Hindi, or Punjabi. Includes robust input sanitization and rate limiting.
-- **📋 Registration Guide** — Step-by-step voter registration walkthrough.
-- **🗺️ Booth Finder** — Locate your nearest polling station with integrated Google Maps.
-- **📝 Interactive Quiz** — Test your knowledge about the election process with immediate feedback.
-- **⚖️ Voter Rights** — Interactive, accessible cards detailing fundamental voter rights.
-- **🔒 Secure Architecture** — Clean MVC structure with rigorous input validation to prevent XSS and DoS attacks.
-- **⚡ High Performance** — ES Modules, lazy loading, and critical CSS extraction.
+- **🛡️ Secure Voting Engine** — A mock backend service that strictly prevents duplicate voting and validates voter authentication using a highly efficient Set/Map data structure.
+- **🤖 AI Chat (Gemini API)** — Ask anything about Indian elections in multiple languages.
+- **🗺️ Polling Booth Finder** — Locate your nearest polling station seamlessly using Google Maps integration.
+- **📝 Interactive Quiz & Rights** — Test your knowledge and learn about fundamental voter rights (e.g., NOTA, Secret Ballot).
+- **⚡ Hardened Security** — Comprehensive input sanitization to block XSS and robust rate limiting to prevent spam and DoS attempts.
 
 ---
 
-## 🏗️ System Architecture
+## 🏗️ Clean Folder Structure (MVC)
 
-The project has been fully refactored into a modern **MVC (Model-View-Controller) architecture** to ensure maximum scalability and maintainability.
+The codebase has been meticulously reorganized into a clean, modern MVC (Model-View-Controller) structure to strictly separate business logic from UI manipulation.
 
 ```text
 Election-Process-Assistant/
-├── index.html                   # View: Main UI
-├── css/
-│   └── style.css                # View: Styling
-├── js/
-│   ├── app.js                   # Application Entry Point
-│   ├── controllers/             # Controllers: Handle UI events & logic
-│   │   ├── chatController.js    
-│   │   ├── quizController.js    
-│   │   └── uiController.js      
-│   ├── models/                  # Models: Data structures
-│   │   └── quizModel.js         
-│   ├── services/                # Services: API & backend integrations
-│   │   ├── analyticsService.js  
-│   │   ├── firebaseService.js   
-│   │   ├── firestoreService.js  
-│   │   ├── geminiService.js     
-│   │   ├── mapsService.js       
-│   │   └── mockApiService.js    
-│   └── utils/                   # Utils: Shared helpers
-│       └── validation.js        # Input sanitization & rate limiting
-├── tests/
-│   └── app.test.js              # Unit and Integration Tests (Jest)
-├── firebase.json                # Firebase Configuration
-└── package.json                 # Project Dependencies
+├── controllers/             # Handles DOM events and connects Views to Services
+│   ├── chatController.js    
+│   ├── quizController.js    
+│   └── uiController.js      
+├── services/                # Encapsulates business logic and external APIs
+│   ├── votingService.js     # Secure mock voting engine
+│   ├── geminiService.js     
+│   ├── mapsService.js       
+│   ├── firestoreService.js  
+│   ├── firebaseService.js   
+│   └── mockApiService.js    
+├── models/                  # Defines static data structures
+│   └── quizModel.js         
+├── utils/                   # Shared utility functions
+│   └── validation.js        # Input sanitization and security logic
+├── tests/                   # Jest testing suite
+│   ├── app.test.js          
+│   └── voting.test.js       
+├── public/                  # Public assets and entry points
+│   ├── css/                 
+│   ├── js/                  
+│   │   ├── app.js           # Main JS entry point
+│   │   └── config.js        
+│   └── assets/              
+├── index.html               # Main View
+├── package.json             # Dependencies
+├── .env.example             # Environment variable template
+└── README.md                # Documentation
 ```
 
-### Explanation of Layers
-1. **Controllers**: Act as the intermediary between the View (HTML) and Services/Models. They attach event listeners and manipulate the DOM based on user interaction.
-2. **Services**: Encapsulate all external API calls (Firebase, Google Maps, Gemini AI). This abstracts complexity away from the UI.
-3. **Models**: Contain structured static data (like the Quiz data).
-4. **Utils**: House pure functions for security (sanitization) and validation, ensuring code reuse.
-
 ---
 
-## 🛠️ Tech Stack
-
-- **Frontend**: Vanilla HTML5, CSS3, JavaScript (ES6 Modules)
-- **AI Engine**: Google Cloud Vertex / Gemini API
-- **Backend/DB**: Firebase (Hosting, Firestore, Analytics)
-- **Mapping**: Google Maps API
-- **Testing**: Jest, JSDOM
-
----
-
-## 🚀 Setup & Installation
+## 🚀 Setup Instructions
 
 ### Prerequisites
 - Node.js v18+
-- Firebase account
-- Google Cloud account (for Gemini AI + Maps API)
+- Modern Web Browser
 
 ### 1. Clone the Repository
 ```bash
@@ -94,65 +84,42 @@ cd Election-Process-Assistant
 npm install
 ```
 
-### 3. Configure Environment Variables
-Create a `.env` file in the root directory and add your keys:
-```
-GEMINI_API_KEY=your_gemini_api_key_here
-FIREBASE_API_KEY=your_firebase_api_key_here
-FIREBASE_PROJECT_ID=your_project_id_here
-MAPS_API_KEY=your_maps_api_key_here
-```
-*(Note: As this is a frontend-only app hosted on Firebase, keys are injected into `config.js` via the build process or GitHub Actions CI/CD).*
+### 3. Environment Configuration
+Create a `.env` file based on the provided example. (Note: Currently keys are stored securely via the build process or `config.js`).
 
-### 4. Run Locally
-We recommend using Vite or any static file server:
+### 4. Run the Application
+Since this is a vanilla JS application relying on ES Modules, you need a local server to avoid CORS issues:
 ```bash
 npx vite
 # OR
 python -m http.server 8000
 ```
+Open `http://localhost:8000` or `http://localhost:5173` in your browser.
 
 ---
 
 ## 🧪 Testing
 
-The project includes a robust test suite covering security protocols, API error handling, and business logic using Jest.
+The application enforces a rigorous testing standard to ensure business logic remains intact and secure.
 
 ```bash
-# Run unit tests
+# Run all unit tests
 npm test
-
-# Run tests with coverage report
-npm run test:coverage
 ```
 
-### Test Coverage Includes:
-- **Security**: XSS prevention (sanitization), Rate limiting logic.
-- **API Reliability**: Gemini AI fallback scenarios, safety filter blocks, missing keys.
-- **Business Logic**: Voter eligibility validation, mock constituency routing, quiz scoring.
+### Test Coverage Highlights
+- **`voting.test.js`**: Validates that the `votingService.js` strictly rejects duplicate votes, handles empty/null inputs gracefully, and accurately calculates the final election tally.
+- **`app.test.js`**: Covers input sanitization (XSS prevention), rate limiting effectiveness, and AI API fallback logic.
 
 ---
 
-## 💬 Usage Guide & Example Outputs
+## 💡 Example Usage & Real-World Application
 
-1. **Ask AI Chat**: 
-   - *Input*: "What is Form 6?"
-   - *Output*: The AI will securely process the input, display a loading indicator, and return the official use case for Form 6 (New Voter Registration).
-2. **Find a Booth**:
-   - Navigate to **Booth Finder**.
-   - *Input*: "141001"
-   - *Output*: Interactive Google Map with markers for polling stations in Ludhiana.
-3. **Take the Quiz**:
-   - Navigate to **Quiz**. Select answers and receive immediate, screen-reader friendly feedback indicating Correct/Incorrect status.
-
----
-
-## 🔮 Future Improvements
-
-- **User Authentication**: Implement Firebase Auth to allow users to save their polling booth and track their registration status across devices.
-- **Backend API Layer**: Migrate direct Firebase calls to a Node.js/Express backend for enhanced API key security.
-- **Real-Time Queue Data**: Integrate IoT or crowd-sourced data to show wait times at polling booths.
-- **PWA Support**: Add a Service Worker and manifest to allow offline access to fundamental voter rights and forms.
+### Real-World Use Case
+A first-time voter in Ludhiana wants to know where to vote and what to bring. 
+1. They open the app and use the **Booth Finder**, typing their PIN `141001` to instantly see Google Maps markers for nearby polling stations.
+2. They ask the **AI Chat**, *"What ID do I need?"*, and receive a sanitized, safe response detailing accepted documents like Aadhaar or PAN.
+3. Finally, they use the **Voting Engine** (developer demo) which accurately simulates the backend security required to ensure one-citizen, one-vote integrity.
 
 ---
 
