@@ -40,3 +40,52 @@ export const checkVoterEligibility = (age) => {
         return { eligible: false, message: 'You must be at least 18 years old to vote.' };
     }
 };
+
+/**
+ * Mock database to store voting records and prevent duplicate voting.
+ */
+const mockVotingDatabase = new Set();
+
+/**
+ * Submits a vote for a candidate. Includes authentication and duplicate checking.
+ * @param {string} voterId - The unique ID of the voter (e.g., EPIC number).
+ * @param {string} candidateId - The ID of the candidate being voted for.
+ * @returns {object} Status of the vote submission.
+ */
+export const submitVote = (voterId, candidateId) => {
+    // 1. Authentication Check (Mocked)
+    if (!voterId || typeof voterId !== 'string' || voterId.trim() === '') {
+        return { success: false, error: 'Authentication failed. Invalid Voter ID.' };
+    }
+
+    // 2. Input Validation
+    if (!candidateId || typeof candidateId !== 'string' || candidateId.trim() === '') {
+        return { success: false, error: 'Invalid candidate selected.' };
+    }
+
+    // 3. Prevent Duplicate Voting
+    if (mockVotingDatabase.has(voterId)) {
+        return { success: false, error: 'Duplicate voting detected. You have already cast your vote.' };
+    }
+
+    // 4. Submit Vote
+    try {
+        mockVotingDatabase.add(voterId);
+        // In a real app, we would calculate results here or save to DB
+        return { success: true, message: 'Vote submitted successfully.' };
+    } catch (error) {
+        return { success: false, error: 'System error during vote submission.' };
+    }
+};
+
+/**
+ * Calculates mock election results.
+ * @returns {object} The current tally.
+ */
+export const calculateResults = () => {
+    // Mock result calculation
+    return {
+        totalVotes: mockVotingDatabase.size,
+        status: 'Results calculated successfully'
+    };
+};

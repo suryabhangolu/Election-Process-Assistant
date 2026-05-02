@@ -10,7 +10,7 @@
 
 import { sanitizeInput, checkRateLimit, checkAnswer } from '../js/utils/validation.js';
 import { fetchGeminiResponse } from '../js/services/geminiService.js';
-import { getConstituencyByPin, checkVoterEligibility } from '../js/services/mockApiService.js';
+import { getConstituencyByPin, checkVoterEligibility, submitVote, calculateResults } from '../js/services/mockApiService.js';
 
 /**
  * @module app.test
@@ -211,6 +211,41 @@ describe('Election Mitra - Unit Tests', () => {
       expect(checkVoterEligibility("18").error).toBeDefined();
       expect(checkVoterEligibility(-5).error).toBeDefined();
       expect(checkVoterEligibility(null).error).toBeDefined();
+    });
+  });
+
+  // ==========================================
+  // 7. Vote Submission & Security Tests
+  // ==========================================
+  describe('Security & Logic: Vote Submission & Calculation', () => {
+    
+    test('Valid vote submission succeeds', () => {
+      const response = submitVote('VOTER123', 'CANDIDATE_A');
+      expect(response.success).toBe(true);
+      expect(response.message).toBe('Vote submitted successfully.');
+    });
+
+    test('Duplicate voting is prevented and returns error', () => {
+      // Voter123 already voted in the previous test
+      const response = submitVote('VOTER123', 'CANDIDATE_B');
+      expect(response.success).toBe(false);
+      expect(response.error).toContain('Duplicate voting detected');
+    });
+
+    test('Invalid/Empty input returns structured error response', () => {
+      const noVoterResponse = submitVote('', 'CANDIDATE_C');
+      expect(noVoterResponse.success).toBe(false);
+      expect(noVoterResponse.error).toContain('Authentication failed');
+
+      const noCandidateResponse = submitVote('VOTER456', '');
+      expect(noCandidateResponse.success).toBe(false);
+      expect(noCandidateResponse.error).toContain('Invalid candidate');
+    });
+
+    test('Result calculation executes successfully', () => {
+      const results = calculateResults();
+      expect(results.totalVotes).toBeGreaterThan(0);
+      expect(results.status).toBe('Results calculated successfully');
     });
   });
 });
