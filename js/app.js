@@ -20,15 +20,16 @@ const requestTimestamps = [];
  * @returns {string} The sanitized input string.
  */
 export const sanitizeInput = (input) => {
-    if (!input || typeof input !== 'string') return '';
-    try {
-        let cleanInput = input.trim().substring(0, 500);
-        cleanInput = cleanInput.replace(/<\/?[^>]+(>|$)/g, "");
-        return cleanInput;
-    } catch (error) {
-        console.error("Error sanitizing input:", error);
-        return '';
-    }
+  if (!input || typeof input !== 'string') return '';
+  try {
+    let cleanInput = input.trim().substring(0, 500);
+    // Security: Basic regex to remove common HTML tags
+    cleanInput = cleanInput.replace(/<\/?[^>]+(>|$)/g, "");
+    return cleanInput;
+  } catch (error) {
+    console.error("Error sanitizing input:", error);
+    return '';
+  }
 };
 
 /**
@@ -37,20 +38,21 @@ export const sanitizeInput = (input) => {
  * @returns {boolean} True if the request is allowed, false otherwise.
  */
 export const checkRateLimit = () => {
-    try {
-        const now = Date.now();
-        while (requestTimestamps.length > 0 && requestTimestamps[0] < now - RATE_LIMIT_WINDOW_MS) {
-            requestTimestamps.shift();
-        }
-        
-        if (requestTimestamps.length >= RATE_LIMIT_MAX) return false;
-        
-        requestTimestamps.push(now);
-        return true;
-    } catch (error) {
-        console.error("Error in rate limiting:", error);
-        return false; // Fail secure
+  try {
+    const now = Date.now();
+    // Maintain a sliding window of timestamps to track request frequency
+    while (requestTimestamps.length > 0 && requestTimestamps[0] < now - RATE_LIMIT_WINDOW_MS) {
+      requestTimestamps.shift();
     }
+    
+    if (requestTimestamps.length >= RATE_LIMIT_MAX) return false;
+    
+    requestTimestamps.push(now);
+    return true;
+  } catch (error) {
+    console.error("Error in rate limiting:", error);
+    return false; // Fail secure
+  }
 };
 
 /**
@@ -59,107 +61,227 @@ export const checkRateLimit = () => {
  * @returns {boolean} True if the answer is correct.
  */
 export const checkAnswer = (isCorrect) => {
-    return isCorrect === 'true';
+  return isCorrect === 'true';
+};
+
+/**
+ * Toggles visibility of tab sections based on the clicked target.
+ * @param {string} targetId - The ID of the section to show.
+ * @returns {void}
+ */
+const toggleSections = (targetId) => {
+  const sections = document.querySelectorAll('.tab-content');
+  sections.forEach(sec => {
+    if (sec.id === targetId) {
+      sec.classList.add('active');
+      sec.classList.remove('hidden');
+    } else {
+      sec.classList.remove('active');
+      sec.classList.add('hidden');
+    }
+  });
+};
+
+/**
+ * Updates the navigation buttons' aria-expanded attributes.
+ * @param {EventTarget} clickedBtn - The button that was clicked.
+ * @returns {void}
+ */
+const updateNavButtons = (clickedBtn) => {
+  const navBtns = document.querySelectorAll('.nav-btn');
+  navBtns.forEach(b => b.setAttribute('aria-expanded', 'false'));
+  clickedBtn.setAttribute('aria-expanded', 'true');
 };
 
 /**
  * Sets up tab navigation events for the application.
  * Highlights the active tab and switches visible sections.
+ * @returns {void}
  */
 const setupNavigation = () => {
-    try {
-        const navBtns = document.querySelectorAll('.nav-btn');
-        const sections = document.querySelectorAll('.tab-content');
+  try {
+    const navBtns = document.querySelectorAll('.nav-btn');
 
-        if (!navBtns.length || !sections.length) return;
+    if (!navBtns.length) return;
 
-        navBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const targetId = e.target.getAttribute('data-target');
-                if (!targetId) return;
-                
-                navBtns.forEach(b => b.setAttribute('aria-expanded', 'false'));
-                e.target.setAttribute('aria-expanded', 'true');
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const targetId = e.target.getAttribute('data-target');
+        if (!targetId) return;
+        
+        updateNavButtons(e.target);
+        toggleSections(targetId);
 
-                sections.forEach(sec => {
-                    if (sec.id === targetId) {
-                        sec.classList.add('active');
-                        sec.classList.remove('hidden');
-                    } else {
-                        sec.classList.remove('active');
-                        sec.classList.add('hidden');
-                    }
-                });
+        if (targetId === 'map-section') {
+          initMap();
+        }
+        trackPageView(targetId);
+      });
+    });
+  } catch (error) {
+    console.error("Error setting up navigation:", error);
+  }
+};
 
-                if (targetId === 'map-section') {
-                    initMap();
-                }
-                trackPageView(targetId);
-            });
-        });
-    } catch (error) {
-        console.error("Error setting up navigation:", error);
-    }
+const quizData = [
+  { question: "What is the minimum voting age in India?", options: [{text: "16", correct: false}, {text: "18", correct: true}, {text: "21", correct: false}] },
+  { question: "What does EVM stand for?", options: [{text: "Electronic Voting Machine", correct: true}, {text: "Election Voting Method", correct: false}, {text: "Early Voting Machine", correct: false}] },
+  { question: "Who conducts the national elections in India?", options: [{text: "Supreme Court", correct: false}, {text: "Election Commission of India", correct: true}, {text: "President", correct: false}] },
+  { question: "What is NOTA?", options: [{text: "National Organization for Transparency", correct: false}, {text: "None of the Above", correct: true}, {text: "New Order of Tax Authority", correct: false}] },
+  { question: "How often are general elections held in India?", options: [{text: "Every 4 years", correct: false}, {text: "Every 5 years", correct: true}, {text: "Every 6 years", correct: false}] }
+];
+
+let currentQuestionIndex = 0;
+
+/**
+ * Handles user interaction when an option is selected in the quiz.
+ * @param {Event} e - The click event object.
+ * @returns {void}
+ */
+const handleQuizAnswer = (e) => {
+  const isCorrect = checkAnswer(e.target.getAttribute('data-correct'));
+  const quizBtns = document.querySelectorAll('.quiz-btn');
+  const feedback = document.getElementById('quiz-feedback');
+  const nextBtn = document.getElementById('next-question-btn');
+
+  // Disable all options
+  quizBtns.forEach(b => {
+    b.disabled = true;
+    b.classList.remove('correct', 'wrong');
+  });
+
+  feedback.classList.remove('sr-only');
+  
+  if (isCorrect) {
+    e.target.classList.add('correct');
+    feedback.textContent = "Correct!";
+    feedback.className = "success-text mt-4 font-bold text-accent";
+    trackUserAction("quiz_answer", { result: "correct" });
+  } else {
+    e.target.classList.add('wrong');
+    feedback.textContent = "Incorrect. Try again next time!";
+    feedback.className = "error-text mt-4 font-bold text-accent";
+    trackUserAction("quiz_answer", { result: "incorrect" });
+  }
+
+  // Show Next button if more questions exist
+  if (currentQuestionIndex < quizData.length - 1) {
+    nextBtn.classList.remove('hidden');
+  } else {
+    nextBtn.textContent = "Quiz Completed";
+    nextBtn.classList.remove('hidden');
+    nextBtn.disabled = true;
+  }
+};
+
+/**
+ * Renders the current quiz question and its options.
+ * @returns {void}
+ */
+const renderQuizQuestion = () => {
+  const questionEl = document.getElementById('quiz-question');
+  const optionsContainer = document.getElementById('quiz-options-container');
+  const feedback = document.getElementById('quiz-feedback');
+  const nextBtn = document.getElementById('next-question-btn');
+
+  if (!questionEl || !optionsContainer || !feedback || !nextBtn) return;
+
+  const currentQ = quizData[currentQuestionIndex];
+  questionEl.textContent = currentQ.question;
+  optionsContainer.innerHTML = '';
+  
+  feedback.classList.add('sr-only');
+  feedback.textContent = '';
+  nextBtn.classList.add('hidden');
+
+  currentQ.options.forEach((opt) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-btn';
+    btn.setAttribute('aria-label', `Option ${opt.text}`);
+    btn.setAttribute('data-correct', opt.correct.toString());
+    btn.textContent = opt.text;
+    
+    // Attach click listener for answering
+    btn.addEventListener('click', handleQuizAnswer);
+    optionsContainer.appendChild(btn);
+  });
 };
 
 /**
  * Initializes quiz interaction logic and feedback display.
+ * @returns {void}
  */
 const setupQuiz = () => {
-    try {
-        const quizBtns = document.querySelectorAll('.quiz-btn');
-        const feedback = document.getElementById('quiz-feedback');
+  try {
+    const nextBtn = document.getElementById('next-question-btn');
+    if (!nextBtn) return;
+    
+    nextBtn.addEventListener('click', () => {
+      if (currentQuestionIndex < quizData.length - 1) {
+        currentQuestionIndex++;
+        renderQuizQuestion();
+      }
+    });
 
-        if (!quizBtns.length || !feedback) return;
+    renderQuizQuestion();
+  } catch (error) {
+    console.error("Error setting up quiz:", error);
+  }
+};
 
-        quizBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const isCorrect = checkAnswer(e.target.getAttribute('data-correct'));
-                
-                quizBtns.forEach(b => {
-                    b.disabled = true;
-                    b.classList.remove('correct', 'wrong');
-                });
+/**
+ * Sets up the Rights cards interaction, replacing inline HTML handlers.
+ * @returns {void}
+ */
+const setupRightsCards = () => {
+  try {
+    const rightCards = document.querySelectorAll('.right-card');
+    rightCards.forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('highlight');
+        const isExpanded = card.classList.contains('highlight');
+        card.setAttribute('aria-expanded', isExpanded.toString());
+      });
+      // Replace deprecated onkeypress with keydown
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault(); // Prevent default scroll on space
+          card.click();
+        }
+      });
+    });
+  } catch (error) {
+    console.error("Error setting up rights cards:", error);
+  }
+};
 
-                feedback.classList.remove('sr-only');
-                
-                if (isCorrect) {
-                    e.target.classList.add('correct');
-                    feedback.textContent = "Correct! 18 is the minimum voting age.";
-                    feedback.className = "success-text";
-                    trackUserAction("quiz_answer", { result: "correct" });
-                } else {
-                    e.target.classList.add('wrong');
-                    feedback.textContent = "Incorrect. The correct answer is 18.";
-                    feedback.className = "error-text";
-                    trackUserAction("quiz_answer", { result: "incorrect" });
-                }
-            });
-        });
-    } catch (error) {
-        console.error("Error setting up quiz:", error);
-    }
+/**
+ * Dynamically loads external CSS files to comply with CSP.
+ * @returns {void}
+ */
+const loadStyles = () => {
+  const cssLink = document.createElement('link');
+  cssLink.rel = 'stylesheet';
+  cssLink.href = './css/style.css';
+  document.head.appendChild(cssLink);
 };
 
 /**
  * Primary initialization function that bootstraps the app.
+ * @returns {void}
  */
 const init = () => {
-    try {
-        // Load CSS dynamically for CSP compatibility
-        const cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = './css/style.css';
-        document.head.appendChild(cssLink);
-
-        initFirebase();
-        trackPageView("home");
-        setupNavigation();
-        setupChat();
-        setupQuiz();
-    } catch (error) {
-        console.error("Application initialization error:", error);
-    }
+  try {
+    loadStyles();
+    initFirebase();
+    trackPageView("home");
+    setupNavigation();
+    setupChat();
+    setupQuiz();
+    setupRightsCards();
+  } catch (error) {
+    console.error("Application initialization error:", error);
+  }
 };
 
 document.addEventListener('DOMContentLoaded', init);
