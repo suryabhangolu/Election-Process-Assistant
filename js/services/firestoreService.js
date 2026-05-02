@@ -1,5 +1,5 @@
 import { collection, addDoc, query, orderBy, limit, getDocs } from "firebase/firestore";
-import { db } from "./firebase.js";
+import { db } from "./firebaseService.js";
 
 /**
  * Saves a user query and its AI response to Firestore.

@@ -1,5 +1,5 @@
 import { logEvent } from "firebase/analytics";
-import { analytics } from "./firebase.js";
+import { analytics } from "./firebaseService.js";
 
 /**
  * Tracks a custom user action event in Firebase Analytics.

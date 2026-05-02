@@ -1,6 +1,6 @@
-import { CONFIG } from './config.js';
-import { sanitizeInput } from './app.js';
-import { trackSearch } from './analytics.js';
+import { CONFIG } from '../config.js';
+import { sanitizeInput } from '../utils/validation.js';
+import { trackSearch } from './analyticsService.js';
 
 /**
  * @module maps

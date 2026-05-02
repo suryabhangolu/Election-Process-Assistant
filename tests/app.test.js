@@ -8,9 +8,9 @@
 // 3. Install Jest and Babel: `npm install --save-dev jest jest-environment-jsdom @babel/preset-env babel-jest`
 // 4. Run tests using: `npm test`
 
-import { sanitizeInput, checkRateLimit, checkAnswer } from '../js/app.js';
-import { fetchGeminiResponse } from '../js/gemini.js';
-import { getConstituencyByPin, checkVoterEligibility } from '../js/mockApi.js';
+import { sanitizeInput, checkRateLimit, checkAnswer } from '../js/utils/validation.js';
+import { fetchGeminiResponse } from '../js/services/geminiService.js';
+import { getConstituencyByPin, checkVoterEligibility } from '../js/services/mockApiService.js';
 
 /**
  * @module app.test
